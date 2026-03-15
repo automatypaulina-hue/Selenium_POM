@@ -1,16 +1,21 @@
-import unittest
-from selenium import webdriver
-from pages.home_page import HomePage
+from pages.base_page import BasePage
+from pages.authentication_page import AuthenticationPage
+from selenium.webdriver.common.by import By
 
-class BaseTest(unittest.TestCase):
+class Locators:
     """
-    Base Test for each Test Case
+    Home Page elements locators
     """
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get("http://localhost:8080")
-        self.home_page = HomePage(self.driver)
+    SIGN_IN_LINK = (By.CLASS_NAME, "login")
 
-    def tearDown(self):
-        self.driver.quit()
+class HomePage(BasePage):
+    """
+    Home Page Object
+    """
+    def click_sign_in(self):
+        """
+        Clicks Sign In and goes to Authentication Page
+        :return: AuthenticationPage Object
+        """
+        self.driver.find_element(*Locators.SIGN_IN_LINK).click()
+        return AuthenticationPage(self.driver)
